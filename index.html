@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excel Cash & Carry · KES</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ===== LOGIN FORM ===== -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-container">
+      <div class="login-box">
+        <div class="login-brand">
+          <i class="fas fa-store"></i>
+          <span>Excel <span class="highlight">Cash & Carry</span></span>
+        </div>
+        <h2 id="authModeText">Sign in to your account</h2>
+        <p class="login-sub">Manage your store and products</p>
+        <form id="loginForm">
+          <div class="form-group">
+            <label><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" id="loginEmail" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required>
+          </div>
+          <div class="form-group" id="confirmPasswordGroup" style="display:none;">
+            <label><i class="fas fa-check-circle"></i> Confirm Password</label>
+            <input type="password" id="loginConfirmPassword" placeholder="Confirm your password">
+          </div>
+          <div id="loginError" style="display:none; color:#ef4444; background:#fee2e2; padding:0.5rem; border-radius:8px; margin-bottom:1rem; font-size:0.9rem;"></div>
+          <button type="submit" class="login-btn" id="submitAuthBtn"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+          <p style="text-align:center; margin-top:1rem; color:#64748b; font-size:0.9rem;">
+            <a href="javascript:void(0)" id="toggleAuthModeBtn" style="color:#3b82f6; text-decoration:none;">Don't have an account? Sign Up</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN APP ===== -->
+  <div class="app-wrapper hidden" id="appWrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fas fa-store"></i>
+        <span>Excel <span class="highlight">Cash & Carry</span></span>
+      </div>
+      <nav class="nav-links">
+        <a href="javascript:void(0)" class="active" data-page="dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
+        <a href="javascript:void(0)" data-page="products"><i class="fas fa-boxes"></i> Products</a>
+        <a href="javascript:void(0)" data-page="cart"><i class="fas fa-shopping-cart"></i> Cart <span class="badge" id="sideCartBadge">0</span></a>
+        <a href="javascript:void(0)" data-page="orders"><i class="fas fa-clipboard-list"></i> Orders</a>
+        <a href="javascript:void(0)" data-page="settings"><i class="fas fa-cog"></i> Settings</a>
+      </nav>
+      <div class="user-card">
+        <i class="fas fa-user-circle"></i>
+        <div>
+          <span id="userNameDisplay">User</span>
+          <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="page-title" id="pageTitle">📊 Dashboard</div>
+        <div class="top-actions">
+          <span class="currency-badge"><i class="fas fa-kenya-flag"></i> KES</span>
+          <button class="cart-toggle" id="cartToggleBtn">
+            <i class="fas fa-shopping-bag"></i> Cart 
+            <span class="badge" id="headerCartBadge">0</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Stats -->
+      <section class="dashboard-stats" id="dashboardStats">
+        <div class="stat-card">
+          <i class="fas fa-boxes stat-icon"></i>
+          <div><span class="stat-value" id="statProducts">0</span> <span class="stat-label">products</span></div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-shopping-cart stat-icon"></i>
+          <div><span class="stat-value" id="statCartItems">0</span> <span class="stat-label">items in cart</span></div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-kenya-flag stat-icon"></i>
+          <div><span class="stat-value" id="statCartTotal">KSh 0</span> <span class="stat-label">cart total</span></div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-clock stat-icon"></i>
+          <div><span class="stat-value" id="statOrders">0</span> <span class="stat-label">orders</span></div>
+        </div>
+      </section>
+
+      <!-- Products Section -->
+      <section class="product-section" id="productSection">
+        <div class="section-header">
+          <h2><i class="fas fa-boxes"></i> Product Management</h2>
+          <button class="add-product-btn" id="openAddProductBtn"><i class="fas fa-plus"></i> Add Product</button>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+      </section>
+
+      <!-- Cart Panel -->
+      <section class="cart-panel hidden" id="cartPanel">
+        <div class="cart-header">
+          <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+          <button class="clear-cart" id="clearCartBtn"><i class="fas fa-trash-alt"></i> Clear</button>
+        </div>
+        <ul class="cart-items" id="cartItemsList"></ul>
+        <div class="cart-total">
+          <span>Total</span>
+          <span id="cartTotalPrice">KSh 0.00</span>
+        </div>
+        
+        <!-- Payment Method Selection -->
+        <div class="payment-method">
+          <label class="payment-label"><i class="fas fa-credit-card"></i> Payment Method</label>
+          <div class="payment-options">
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="M-Pesa" checked>
+              <span><i class="fas fa-mobile-alt"></i> M-Pesa</span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="Cash">
+              <span><i class="fas fa-money-bill-wave"></i> Cash</span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="Card">
+              <span><i class="fas fa-credit-card"></i> Card</span>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="Bank Transfer">
+              <span><i class="fas fa-university"></i> Bank Transfer</span>
+            </label>
+          </div>
+        </div>
+        
+        <button class="checkout-btn" id="checkoutBtn"><i class="fas fa-credit-card"></i> Checkout (KES)</button>
+      </section>
+
+      <!-- Orders Placeholder -->
+      <section class="placeholder-section hidden" id="ordersPlaceholder">
+        <div class="placeholder-card">
+          <i class="fas fa-clipboard-list" style="font-size:3rem; color:#94a3b8;"></i>
+          <h3>Your Orders</h3>
+          <p>You haven't placed any orders yet.</p>
+          <button class="btn-outline" id="goShopFromOrders"><i class="fas fa-store"></i> Start Shopping</button>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section class="placeholder-section hidden" id="settingsPlaceholder">
+        <div class="placeholder-card">
+          <i class="fas fa-cog" style="font-size:3rem; color:#94a3b8;"></i>
+          <h3>Settings</h3>
+          <p>Currency: <strong>Kenyan Shilling (KES)</strong></p>
+          <p style="font-size:0.9rem; color:#64748b;">Manage your store settings</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ===== ADD PRODUCT MODAL ===== -->
+  <div class="modal hidden" id="productModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add New Product</h3>
+        <button class="modal-close" id="closeModalBtn">&times;</button>
+      </div>
+      <form id="productForm">
+        <input type="hidden" id="productId" value="">
+        <div class="form-group">
+          <label>Product Name</label>
+          <input type="text" id="productName" placeholder="e.g., Fresh Apples" required>
+        </div>
+        <div class="form-group">
+          <label>Emoji / Icon</label>
+          <input type="text" id="productEmoji" placeholder="e.g., 🍎" maxlength="2" required>
+        </div>
+        <div class="form-group">
+          <label>Price (KES)</label>
+          <input type="number" id="productPrice" placeholder="e.g., 120" min="0" step="0.01" required>
+        </div>
+        <button type="submit" class="save-product-btn" id="saveProductBtn"><i class="fas fa-save"></i> Save Product</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="shop.js"></script>
+</body>
+</html>
