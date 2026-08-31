@@ -63,19 +63,21 @@
           <span class="nav-label">Cart</span>
           <span class="badge" id="sideCartBadge">0</span>
         </a>
+        <!-- Admin Only Links -->
+        <a href="javascript:void(0)" data-page="admin" id="adminLink" style="display:none;">
+          <i class="fas fa-user-cog"></i>
+          <span class="nav-label">Admin</span>
+        </a>
         <a href="javascript:void(0)" data-page="orders">
           <i class="fas fa-clipboard-list"></i>
           <span class="nav-label">Orders</span>
-        </a>
-        <a href="javascript:void(0)" data-page="settings">
-          <i class="fas fa-cog"></i>
-          <span class="nav-label">Settings</span>
         </a>
       </nav>
       <div class="user-card">
         <i class="fas fa-user-circle"></i>
         <div>
           <span id="userNameDisplay">User</span>
+          <span id="userRoleDisplay" style="font-size:0.65rem;color:#3b82f6;"></span>
           <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </div>
       </div>
@@ -114,16 +116,16 @@
         </div>
       </section>
 
-      <!-- Products -->
+      <!-- Products Section - Customer View -->
       <section class="product-section" id="productSection">
         <div class="section-header">
-          <h2><i class="fas fa-boxes"></i> Product Management</h2>
-          <button class="add-product-btn" id="openAddProductBtn"><i class="fas fa-plus"></i> Add Product</button>
+          <h2><i class="fas fa-boxes"></i> Our Products</h2>
+          <button class="add-product-btn admin-only" id="openAddProductBtn" style="display:none;"><i class="fas fa-plus"></i> Add Product</button>
         </div>
         <div class="product-grid" id="productGrid"></div>
       </section>
 
-      <!-- Cart -->
+      <!-- Cart Panel -->
       <section class="cart-panel hidden" id="cartPanel">
         <div class="cart-header">
           <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
@@ -158,7 +160,37 @@
         <button class="checkout-btn" id="checkoutBtn"><i class="fas fa-credit-card"></i> Checkout (KES)</button>
       </section>
 
-      <!-- Orders -->
+      <!-- Admin Panel -->
+      <section class="admin-panel hidden" id="adminPanel">
+        <div class="admin-header">
+          <h2><i class="fas fa-user-cog"></i> Admin Dashboard</h2>
+          <p style="color:#64748b;font-size:0.9rem;">Manage your store</p>
+        </div>
+        <div class="admin-stats">
+          <div class="stat-card">
+            <i class="fas fa-users stat-icon"></i>
+            <div><span class="stat-value" id="adminUsers">0</span> <span class="stat-label">users</span></div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-boxes stat-icon"></i>
+            <div><span class="stat-value" id="adminProducts">0</span> <span class="stat-label">products</span></div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-shopping-bag stat-icon"></i>
+            <div><span class="stat-value" id="adminOrders">0</span> <span class="stat-label">orders</span></div>
+          </div>
+        </div>
+        <div class="admin-actions">
+          <button class="add-product-btn" id="openAddProductBtn2"><i class="fas fa-plus"></i> Add New Product</button>
+          <button class="btn-outline" id="manageUsersBtn"><i class="fas fa-users"></i> Manage Users</button>
+        </div>
+        <div class="admin-product-list">
+          <h3>All Products</h3>
+          <div id="adminProductList"></div>
+        </div>
+      </section>
+
+      <!-- Orders Placeholder -->
       <section class="placeholder-section hidden" id="ordersPlaceholder">
         <div class="placeholder-card">
           <i class="fas fa-clipboard-list" style="font-size:3rem; color:#94a3b8;"></i>
