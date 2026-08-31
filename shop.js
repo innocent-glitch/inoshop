@@ -1,5 +1,4 @@
 (function() {
-  // ===== STORAGE =====
   const KEYS = { USERS: 'excel_users', PRODUCTS: 'excel_products', CART: 'excel_cart', USER: 'excel_user' };
   
   function loadData() {
@@ -21,10 +20,8 @@
     } catch(e) { console.warn('Save error:', e); }
   }
 
-  // ===== STATE =====
   let users = [], products = [], cart = [], currentUser = null, isLoggedIn = false, editingId = null, isSignup = false;
 
-  // ===== DOM =====
   const $ = id => document.getElementById(id);
   const loginOverlay = $('loginOverlay'), loginForm = $('loginForm'), loginEmail = $('loginEmail'), loginPassword = $('loginPassword');
   const loginConfirm = $('loginConfirmPassword'), loginError = $('loginError'), appWrapper = $('appWrapper');
@@ -41,7 +38,6 @@
   const pId = $('productId'), pName = $('productName'), pEmoji = $('productEmoji'), pPrice = $('productPrice');
   const modalTitle = $('modalTitle'), saveBtn = $('saveProductBtn');
 
-  // ===== HELPERS =====
   const fmt = a => 'KSh ' + a.toFixed(2);
   const totalItems = () => cart.reduce((a, i) => a + i.quantity, 0);
   const totalPrice = () => cart.reduce((a, i) => a + i.price * i.quantity, 0);
@@ -49,7 +45,6 @@
   const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
   const validPass = p => p.length >= 6;
 
-  // ===== AUTH =====
   function toggleMode() {
     isSignup = !isSignup;
     authModeText.textContent = isSignup ? 'Create your account' : 'Sign in to your account';
@@ -109,7 +104,6 @@
     renderCart();
   }
 
-  // ===== PRODUCT CRUD =====
   function addProduct(name, emoji, price) {
     const p = { id: Date.now(), name: name.trim(), emoji: emoji.trim() || '📦', price: parseFloat(price) };
     products.push(p); saveData(); renderProducts(); updateStats(); return p;
@@ -124,7 +118,6 @@
     products = products.filter(p => p.id !== id); saveData(); renderProducts(); updateStats();
   }
 
-  // ===== MODAL =====
   function openModal() { editingId = null; modalTitle.textContent = 'Add Product'; saveBtn.innerHTML = '<i class="fas fa-plus"></i> Add'; pId.value = pName.value = pEmoji.value = pPrice.value = ''; modal.classList.remove('hidden'); }
   function editModal(p) { editingId = p.id; modalTitle.textContent = 'Edit Product'; saveBtn.innerHTML = '<i class="fas fa-save"></i> Update'; pId.value = p.id; pName.value = p.name; pEmoji.value = p.emoji; pPrice.value = p.price; modal.classList.remove('hidden'); }
   function closeModal() { modal.classList.add('hidden'); productForm.reset(); editingId = null; }
@@ -137,7 +130,6 @@
     closeModal();
   }
 
-  // ===== RENDER =====
   function renderProducts() {
     productGrid.innerHTML = '';
     if (!products.length) {
@@ -200,7 +192,6 @@
   function updateBadges() { const t = totalItems(); headerBadge.textContent = t; sideBadge.textContent = t; }
   function updateStats() { statProducts.textContent = products.length; statItems.textContent = totalItems(); statTotal.textContent = fmt(totalPrice()); }
 
-  // ===== CART =====
   function addToCart(id) {
     const p = products.find(x => x.id === id);
     if (!p) return alert('Product not found!');
@@ -215,7 +206,6 @@
   }
   function clearCart() { if (!cart.length) return; cart = []; saveData(); renderCart(); }
 
-  // ===== PAYMENT & RECEIPT =====
   function getPayment() { const s = document.querySelector('input[name="paymentMethod"]:checked'); return s ? s.value : 'M-Pesa'; }
 
   function showReceipt(details, method) {
@@ -289,7 +279,6 @@
     cart = []; saveData(); renderCart(); navigate('orders');
   }
 
-  // ===== NAVIGATION =====
   function navigate(page) {
     stats.classList.add('hidden'); productSection.classList.add('hidden'); cartPanel.classList.add('hidden');
     ordersPlaceholder.classList.add('hidden'); settingsPlaceholder.classList.add('hidden');
@@ -305,7 +294,6 @@
 
   function toggleCart() { cartPanel.classList.contains('hidden') ? navigate('cart') : navigate('dashboard'); }
 
-  // ===== INIT =====
   function init() {
     loadData();
     if (currentUser && isLoggedIn) {
