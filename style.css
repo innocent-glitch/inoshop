@@ -178,3 +178,33 @@ body{background:#f1f5f9;min-height:100vh}
 
 /* ===== PRINT ===== */
 @media print{body *{visibility:hidden}#receiptModal,#receiptModal *{visibility:visible}#receiptModal{position:fixed;left:0;top:0;width:100%;height:100%;background:white;z-index:9999}.modal-content{box-shadow:none!important;border-radius:0!important;padding:1rem!important;max-width:100%!important}.receipt-actions{display:none!important}.modal-close{display:none!important}}
+/* Add these to your existing style.css */
+
+/* ===== ADMIN PANEL ===== */
+.admin-panel{background:white;border-radius:1.2rem;padding:1.5rem;border:1px solid #e9edf3;margin-top:1rem}
+.admin-header{margin-bottom:1.5rem}
+.admin-header h2{font-weight:600;color:#0f172a;font-size:1.3rem}
+.admin-header h2 i{color:#3b82f6}
+.admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1.5rem}
+.admin-actions{display:flex;gap:0.8rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.admin-actions .add-product-btn{padding:0.5rem 1.2rem;font-size:0.9rem}
+.admin-actions .btn-outline{padding:0.5rem 1.2rem;font-size:0.9rem}
+.admin-product-list h3{font-weight:600;color:#0f172a;margin-bottom:0.8rem;font-size:1rem}
+#adminProductList .admin-product-item{display:flex;justify-content:space-between;align-items:center;padding:0.5rem;border-bottom:1px solid #f1f5f9;font-size:0.9rem}
+#adminProductList .admin-product-item:last-child{border-bottom:none}
+#adminProductList .admin-product-item .product-info{display:flex;align-items:center;gap:0.8rem}
+#adminProductList .admin-product-item .product-emoji{font-size:1.5rem}
+#adminProductList .admin-product-item .product-actions-admin{display:flex;gap:0.4rem}
+#adminProductList .admin-product-item .product-actions-admin button{padding:0.2rem 0.6rem;border:none;border-radius:6px;cursor:pointer;font-size:0.75rem}
+#adminProductList .admin-product-item .product-actions-admin .edit-btn-admin{background:#f1f5f9;color:#475569}
+#adminProductList .admin-product-item .product-actions-admin .edit-btn-admin:hover{background:#e2e8f0;color:#3b82f6}
+#adminProductList .admin-product-item .product-actions-admin .delete-btn-admin{background:#fee2e2;color:#ef4444}
+#adminProductList .admin-product-item .product-actions-admin .delete-btn-admin:hover{background:#fecaca}
+
+/* ===== ROLE BADGE ===== */
+.role-badge{display:inline-block;padding:0.1rem 0.6rem;border-radius:30px;font-size:0.6rem;font-weight:600;margin-left:0.3rem}
+.role-badge.admin{background:#3b82f6;color:white}
+.role-badge.user{background:#e2e8f0;color:#475569}
+
+/* ===== HIDE ADMIN CONTROLS FROM CUSTOMERS ===== */
+.admin-only{display:none !important}
