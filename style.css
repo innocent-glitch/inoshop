@@ -18,29 +18,30 @@ body{background:#f1f5f9;min-height:100vh}
 .login-btn:hover{background:#2563eb}
 
 /* ===== APP WRAPPER ===== */
-.app-wrapper{display:flex;min-height:100vh}
+.app-wrapper{display:flex;min-height:100vh;flex-direction:column}
 
-/* ===== SIDEBAR - MOBILE (default) ===== */
-.sidebar{width:100%;background:#0f172a;color:#e2e8f0;padding:0.3rem 0.5rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;min-height:50px}
-.brand{font-size:0.9rem;font-weight:600;color:white;display:flex;align-items:center;gap:0.4rem;flex-shrink:0}
+/* ===== SIDEBAR - MOBILE ===== */
+.sidebar{width:100%;background:#0f172a;color:#e2e8f0;padding:0.3rem 0.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;min-height:44px;gap:0.3rem;flex-wrap:nowrap}
+.brand{font-size:0.85rem;font-weight:600;color:white;display:flex;align-items:center;gap:0.3rem;flex-shrink:0;white-space:nowrap}
 .brand i,.brand .highlight{color:#3b82f6}
 
-/* Mobile Nav - Icons Only */
-.nav-links{display:flex;gap:0;flex:1;justify-content:space-around;align-items:center;max-width:70%}
-.nav-links a{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0.2rem 0.1rem;border-radius:6px;color:#94a3b8;text-decoration:none;transition:0.15s;cursor:pointer;min-width:36px;height:36px;position:relative;flex:1;max-width:50px;font-size:0}
-.nav-links a i{font-size:1.1rem}
+/* Mobile Nav - Single Row Icons */
+.nav-links{display:flex;gap:0.1rem;align-items:center;flex-shrink:0}
+.nav-links a{display:flex;align-items:center;justify-content:center;padding:0.2rem 0.3rem;border-radius:6px;color:#94a3b8;text-decoration:none;transition:0.15s;cursor:pointer;min-width:32px;height:32px;position:relative}
+.nav-links a i{font-size:0.95rem}
 .nav-links a .nav-label{display:none}
 .nav-links a:hover,.nav-links a.active{color:white;background:#1e293b}
-.nav-links a .badge{background:#3b82f6;color:white;border-radius:40px;padding:0 0.25rem;font-size:0.45rem;position:absolute;top:-2px;right:-2px;min-width:14px;height:14px;display:flex;align-items:center;justify-content:center;border:1.5px solid #0f172a}
+.nav-links a .badge{background:#3b82f6;color:white;border-radius:40px;padding:0 0.25rem;font-size:0.4rem;position:absolute;top:-2px;right:-2px;min-width:14px;height:14px;display:flex;align-items:center;justify-content:center;border:1.5px solid #0f172a}
 .nav-links a .badge:empty{display:none}
 .user-card{display:none}
 
 /* ===== SIDEBAR - DESKTOP ===== */
 @media(min-width:768px){
+.app-wrapper{flex-direction:row}
 .sidebar{width:200px;background:#0f172a;color:#e2e8f0;padding:1.5rem;display:flex;flex-direction:column;gap:1.5rem;height:100vh;position:sticky;top:0;flex-wrap:nowrap;align-items:stretch;justify-content:flex-start}
 .brand{font-size:1.2rem;margin-bottom:0.5rem;flex-shrink:0}
-.nav-links{flex-direction:column;gap:0.3rem;flex:1;justify-content:flex-start;align-items:stretch;max-width:100%}
-.nav-links a{flex-direction:row;justify-content:flex-start;gap:0.8rem;padding:0.5rem 1rem;font-size:0.85rem;height:auto;min-width:auto;background:transparent;position:static;flex:0 1 auto;max-width:100%;border-radius:10px}
+.nav-links{flex-direction:column;gap:0.3rem;flex:1;justify-content:flex-start;align-items:stretch}
+.nav-links a{flex-direction:row;justify-content:flex-start;gap:0.8rem;padding:0.5rem 1rem;font-size:0.85rem;height:auto;min-width:auto;background:transparent;position:static;border-radius:10px}
 .nav-links a i{font-size:1rem}
 .nav-links a .nav-label{display:inline;font-size:0.85rem}
 .nav-links a .badge{position:static;background:#3b82f6;color:white;border-radius:40px;padding:0 0.6rem;font-size:0.7rem;height:auto;min-width:auto;margin-left:auto;border:none}
